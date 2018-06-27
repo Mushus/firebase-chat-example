@@ -8,7 +8,7 @@ module.exports = {
   mode: env,
   entry: './src/index.tsx',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'docs'),
     filename: 'bundle.js',
   },
   module: {
