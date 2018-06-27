@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
+    "@types/react": "^16.4.2",
+    "@types/react-dom": "^16.0.6",
+    "@types/react-redux": "^6.0.3",
     "css-loader": "^0.28.11",
     "eslint": "^5.0.1",
     "eslint-config-google": "^0.9.1",
@@ -25,7 +28,17 @@
   "scripts": {
     "build": "webpack",
     "dev": "webpack-dev-server",
-    "fmt": "eslint --fix --ext .ts src",
+    "fmt": "eslint --fix -c .eslintrc.js --ext .ts src",
     "_fmt": "eslint --fix --ext .js ./"
+  },
+  "dependencies": {
+    "firebase": "^5.1.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-redux": "^5.0.7",
+    "redux-saga": "^0.16.0",
+    "redux-thunk": "^2.3.0",
+    "typescript-fsa": "^3.0.0-beta-2",
+    "typescript-fsa-reducers": "^0.4.5"
   }
 }
