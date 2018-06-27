@@ -26,10 +26,10 @@
     "webpack-dev-server": "^3.1.4"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "NODE_ENV=production webpack",
     "dev": "webpack-dev-server",
     "fmt": "eslint --fix -c .eslintrc.js --ext .ts src",
-    "_fmt": "eslint --fix --ext .js ./"
+    "fmt:js": "eslint --fix --ext .js ./"
   },
   "dependencies": {
     "firebase": "^5.1.0",

@@ -3,11 +3,13 @@ export interface State {
   chatLog: ChatLogState;
 }
 
+export interface LogEntity {
+  name: string;
+  body: string;
+}
+
 export interface ChatLogState {
-  [x: string]: {
-    name: string;
-    body: string;
-  };
+  [x: string]: LogEntity;
 }
 
 export const initialState: State = {

@@ -18,10 +18,10 @@ export default (state: State) => (
     <input type="text" onChange={e => state.handleInputText(e.target.value)} value={state.text} />
     <button onClick={() => state.handlePostText(state.text)}>incrent</button>
     {
-      Object.values(state.chatLog).map(v => (
-        <div>
-          <span>{v.name}</span>
-          <span>{v.body}</span>
+      Object.entries(state.chatLog).reverse().map(v => (
+        <div key={v[0]}>
+          <span>{v[1].name}</span>
+          <span>{v[1].body}</span>
         </div>
       ))
     }

@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 import { eventChannel } from 'redux-saga'
-import { take, call, takeEvery } from 'redux-saga/effects';
+import { take, put, takeEvery } from 'redux-saga/effects';
 import { ActionType, UpdateChatLogAction } from '@/ducks/app';
 import { ChatLogState } from '@/declare';
 
@@ -16,30 +16,31 @@ firebase.initializeApp(config);
 const db = firebase.database();
 const chatRef = db.ref(`rooms/hoge/chat`);
 
-// 購読する
+// チャットログを購読する
 const subscribeChannel = () => eventChannel(emmit => {
   const updateEvent = (snapshot: firebase.database.DataSnapshot) => {
     const chatLog = snapshot.val() as ChatLogState;
-    // eslint-disable-next-line no-console
-    console.log(chatLog);
     emmit(chatLog);
   }
-  chatRef.on('value', updateEvent);
+  chatRef.limitToLast(10).on('value', updateEvent);
   return () => {
     chatRef.off('value', updateEvent);
   }
 })
 
+// チャットログの変更を検知して更新をかける
 export function* updateChat() {
   while (true) {
-    yield takeEvery(ActionType.ObserveChat, function* (action) {
+    const channel = yield takeEvery(subscribeChannel(), function* (action) {
+      yield put(UpdateChatLogAction({ chatLog: action as ChatLogState }));
       return null;
     });
-    const channel = yield call(subscribeChannel)
     yield take(ActionType.DisobserveChat);
     channel.close();
   }
 }
+
+// 送信する
 export function* postChat() {
   while (true) {
     const action = yield take(ActionType.PostChatText);

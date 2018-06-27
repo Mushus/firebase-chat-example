@@ -24,10 +24,15 @@ interface UpdateChatLogPayload {
 // actionType
 
 export enum ActionType {
+  // 入力中のテキストを変更する
   InputChatText = 'INPUT_CHAT_TEXT',
+  // テキストを送信する
   PostChatText = 'POST_CHAT_TEXT',
+  // チャットログを見る
   ObserveChat = 'OBSERVE_CHAT',
+  // チャットログを見るのをやめる
   DisobserveChat = 'DISOBSERVE_CHAT',
+  // チャットのログを更新する
   UpdateChatLog = 'UPDATE_CHAT_LOG',
 }
 
@@ -62,8 +67,6 @@ export const UpdateChatLogHandler = (
   state: RootState,
   { chatLog }: UpdateChatLogPayload
 ): RootState => {
-  // eslint-disable-next-line no-console
-  console.log('hoge');
   return {
     ...state,
     chatLog,
@@ -82,7 +85,10 @@ const mapStateToProps = ({ text, chatLog }: RootState): Props => ({
 });
 const mapDispatchToProps = (dispatch: Dispatch): Handlers => ({
   handleInputText: text => dispatch(inputChatTextAction({ text })),
-  handlePostText: text => dispatch(postChatTextAction({ text })),
+  handlePostText: text => {
+    dispatch(inputChatTextAction({ text: '' }))
+    dispatch(postChatTextAction({ text }))
+  },
 });
 export const App = connect<Props, Handlers, {}, {}>(
   mapStateToProps,
